@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Stok Takip Programı</title>
+</head>
+<body>
+<h1>Stok Takip Programı</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Adı</th>
+        <th>Fiyatı</th>
+        <th>Miktarı</th>
+    </tr>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.quantity}"></td>
+    </tr>
+</table>
+</body>
+</html>
