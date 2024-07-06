@@ -5,41 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06330ea5-d04d-45a6-a24e-13c982c6529a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/JettyServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/model/Book.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/model/Loan.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/model/Member.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/repository/BookRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/repository/LoanRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/repository/MemberRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/repositoryImpl/BookRepositoryImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/repositoryImpl/LoanRepositoryImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/repositoryImpl/MemberRepositoryImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/service/BookService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/service/LoanService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/service/MemberService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/serviceImpl/BookServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/serviceImpl/LoanServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/serviceImpl/MemberServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/servlet/BookServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/servlet/LibraryServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/servlet/LoanServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/library/servlet/MemberServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../worldApp/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../worldApp/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../worldApp/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../worldApp/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../worldApp/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../worldApp/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,32 +24,28 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 3
-}</component>
+    &quot;associatedIndex&quot;: 3
+    }</component>
   <component name="ProjectId" id="2isfSq8zRj8ULyNQ7KMeEx5WTyQ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.Run Jetty Server.executor": "Run",
-    "Maven.LibraryManagementSystem [clean].executor": "Run",
-    "Maven.LibraryManagementSystem [install].executor": "Run",
-    "Maven.library [clean].executor": "Run",
-    "Maven.library [install].executor": "Run",
-    "Maven.worldApp [clean].executor": "Run",
-    "Maven.worldApp [install].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0"
-  }
-}]]></component>
+  <component name="PropertiesComponent">{
+    &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Run Jetty Server.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LibraryManagementSystem [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LibraryManagementSystem [install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+    }
+    }</component>
   <component name="RunManager" selected="Application.Run Jetty Server">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.library.Main" />
