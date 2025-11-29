@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kütüphane Yönetim Sistemi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: white;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .tab-button:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .form-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .actions button {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+                border-radius: 8px;
+            }
+
+            .form-section {
+                padding: 15px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            table th,
+            table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Kütüphane Yönetim Sistemi</h1>
+            <p>Kitaplar, Üyeler ve Ödünç İşlemleri Yönetimi</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('books')">Kitaplar</button>
+            <button class="tab-button" onclick="showTab('members')">Üyeler</button>
+            <button class="tab-button" onclick="showTab('loans')">Ödünçler</button>
+        </div>
+
+        <!-- Books Tab -->
+        <div id="books" class="tab-content active">
+            <div class="message" id="books-message"></div>
+            
+            <div class="form-section">
+                <h3>Yeni Kitap Ekle / Güncelle</h3>
+                <form id="book-form">
+                    <input type="hidden" id="book-id">
+                    <div class="form-group">
+                        <label>Başlık:</label>
+                        <input type="text" id="book-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Yazar:</label>
+                        <input type="text" id="book-author" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ISBN:</label>
+                        <input type="text" id="book-isbn" required>
+                    </div>
+                    <div class="button-group">
+                        <button type="submit" class="btn-primary">Kaydet</button>
+                        <button type="button" class="btn-secondary" onclick="resetBookForm()">Temizle</button>
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                <h3>Kitaplar Listesi</h3>
+                <button class="btn-success" onclick="loadBooks()">Yenile</button>
+                <table id="books-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Başlık</th>
+                            <th>Yazar</th>
+                            <th>ISBN</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Members Tab -->
+        <div id="members" class="tab-content">
+            <div class="message" id="members-message"></div>
+            
+            <div class="form-section">
+                <h3>Yeni Üye Ekle / Güncelle</h3>
+                <form id="member-form">
+                    <input type="hidden" id="member-id">
+                    <div class="form-group">
+                        <label>Ad Soyad:</label>
+                        <input type="text" id="member-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>E-posta:</label>
+                        <input type="email" id="member-email" required>
+                    </div>
+                    <div class="button-group">
+                        <button type="submit" class="btn-primary">Kaydet</button>
+                        <button type="button" class="btn-secondary" onclick="resetMemberForm()">Temizle</button>
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                <h3>Üyeler Listesi</h3>
+                <button class="btn-success" onclick="loadMembers()">Yenile</button>
+                <table id="members-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ad Soyad</th>
+                            <th>E-posta</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Loans Tab -->
+        <div id="loans" class="tab-content">
+            <div class="message" id="loans-message"></div>
+            
+            <div class="form-section">
+                <h3>Yeni Ödünç Ekle / Güncelle</h3>
+                <form id="loan-form">
+                    <input type="hidden" id="loan-id">
+                    <div class="form-group">
+                        <label>Kitap ID:</label>
+                        <input type="number" id="loan-book-id" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Üye ID:</label>
+                        <input type="number" id="loan-member-id" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ödünç Tarihi:</label>
+                        <input type="date" id="loan-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>İade Tarihi (Opsiyonel):</label>
+                        <input type="date" id="loan-return-date">
+                    </div>
+                    <div class="button-group">
+                        <button type="submit" class="btn-primary">Kaydet</button>
+                        <button type="button" class="btn-secondary" onclick="resetLoanForm()">Temizle</button>
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                <h3>Ödünçler Listesi</h3>
+                <button class="btn-success" onclick="loadLoans()">Yenile</button>
+                <table id="loans-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Kitap ID</th>
+                            <th>Üye ID</th>
+                            <th>Ödünç Tarihi</th>
+                            <th>İade Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8086';
+
+        // Tab Management
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'books') loadBooks();
+            else if (tabName === 'members') loadMembers();
+            else if (tabName === 'loans') loadLoans();
+        }
+
+        // Message Display
+        function showMessage(tab, message, isError = false) {
+            const msgEl = document.getElementById(`${tab}-message`);
+            msgEl.textContent = message;
+            msgEl.className = `message ${isError ? 'error' : 'success'} show`;
+            setTimeout(() => {
+                msgEl.classList.remove('show');
+            }, 3000);
+        }
+
+        // Books
+        async function loadBooks() {
+            try {
+                const response = await fetch(`${API_BASE}/books/`);
+                const books = await response.json();
+                const tbody = document.querySelector('#books-table tbody');
+                tbody.innerHTML = books.map(book => `
+                    <tr>
+                        <td>${book.id}</td>
+                        <td>${book.title}</td>
+                        <td>${book.author}</td>
+                        <td>${book.isbn}</td>
+                        <td class="actions">
+                            <button class="btn-primary" onclick="editBook(${book.id})">Düzenle</button>
+                            <button class="btn-danger" onclick="deleteBook(${book.id})">Sil</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                showMessage('books', 'Kitaplar yüklenirken hata oluştu: ' + error.message, true);
+            }
+        }
+
+        async function editBook(id) {
+            try {
+                const response = await fetch(`${API_BASE}/books/${id}`);
+                const book = await response.json();
+                document.getElementById('book-id').value = book.id;
+                document.getElementById('book-title').value = book.title;
+                document.getElementById('book-author').value = book.author;
+                document.getElementById('book-isbn').value = book.isbn;
+            } catch (error) {
+                showMessage('books', 'Kitap bilgileri alınırken hata oluştu: ' + error.message, true);
+            }
+        }
+
+        async function deleteBook(id) {
+            if (!confirm('Bu kitabı silmek istediğinize emin misiniz?')) return;
+            try {
+                const response = await fetch(`${API_BASE}/books/${id}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    showMessage('books', 'Kitap başarıyla silindi');
+                    loadBooks();
+                } else {
+                    showMessage('books', 'Kitap silinirken hata oluştu', true);
+                }
+            } catch (error) {
+                showMessage('books', 'Kitap silinirken hata oluştu: ' + error.message, true);
+            }
+        }
+
+        function resetBookForm() {
+            document.getElementById('book-form').reset();
+            document.getElementById('book-id').value = '';
+        }
+
+        document.getElementById('book-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('book-id').value;
+            const book = {
+                title: document.getElementById('book-title').value,
+                author: document.getElementById('book-author').value,
+                isbn: document.getElementById('book-isbn').value
+            };
+            
+            try {
+                const url = id ? `${API_BASE}/books/` : `${API_BASE}/books/`;
+                const method = id ? 'PUT' : 'POST';
+                if (id) book.id = parseInt(id);
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(book)
+                });
+                
+                if (response.ok) {
+                    showMessage('books', id ? 'Kitap güncellendi' : 'Kitap eklendi');
+                    resetBookForm();
+                    loadBooks();
+                } else {
+                    showMessage('books', 'İşlem başarısız', true);
+                }
+            } catch (error) {
+                showMessage('books', 'Hata: ' + error.message, true);
+            }
+        });
+
+        // Members
+        async function loadMembers() {
+            try {
+                const response = await fetch(`${API_BASE}/members/`);
+                const members = await response.json();
+                const tbody = document.querySelector('#members-table tbody');
+                tbody.innerHTML = members.map(member => `
+                    <tr>
+                        <td>${member.id}</td>
+                        <td>${member.name}</td>
+                        <td>${member.email}</td>
+                        <td class="actions">
+                            <button class="btn-primary" onclick="editMember(${member.id})">Düzenle</button>
+                            <button class="btn-danger" onclick="deleteMember(${member.id})">Sil</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                showMessage('members', 'Üyeler yüklenirken hata oluştu: ' + error.message, true);
+            }
+        }
+
+        async function editMember(id) {
+            try {
+                const response = await fetch(`${API_BASE}/members/${id}`);
+                const member = await response.json();
+                document.getElementById('member-id').value = member.id;
+                document.getElementById('member-name').value = member.name;
+                document.getElementById('member-email').value = member.email;
+            } catch (error) {
+                showMessage('members', 'Üye bilgileri alınırken hata oluştu: ' + error.message, true);
+            }
+        }
+
+        async function deleteMember(id) {
+            if (!confirm('Bu üyeyi silmek istediğinize emin misiniz?')) return;
+            try {
+                const response = await fetch(`${API_BASE}/members/${id}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    showMessage('members', 'Üye başarıyla silindi');
+                    loadMembers();
+                } else {
+                    showMessage('members', 'Üye silinirken hata oluştu', true);
+                }
+            } catch (error) {
+                showMessage('members', 'Üye silinirken hata oluştu: ' + error.message, true);
+            }
+        }
+
+        function resetMemberForm() {
+            document.getElementById('member-form').reset();
+            document.getElementById('member-id').value = '';
+        }
+
+        document.getElementById('member-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('member-id').value;
+            const member = {
+                name: document.getElementById('member-name').value,
+                email: document.getElementById('member-email').value
+            };
+            
+            try {
+                const url = `${API_BASE}/members/`;
+                const method = id ? 'PUT' : 'POST';
+                if (id) member.id = parseInt(id);
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(member)
+                });
+                
+                if (response.ok) {
+                    showMessage('members', id ? 'Üye güncellendi' : 'Üye eklendi');
+                    resetMemberForm();
+                    loadMembers();
+                } else {
+                    showMessage('members', 'İşlem başarısız', true);
+                }
+            } catch (error) {
+                showMessage('members', 'Hata: ' + error.message, true);
+            }
+        });
+
+        // Loans
+        async function loadLoans() {
+            try {
+                const response = await fetch(`${API_BASE}/loans/`);
+                const loans = await response.json();
+                const tbody = document.querySelector('#loans-table tbody');
+                tbody.innerHTML = loans.map(loan => `
+                    <tr>
+                        <td>${loan.id}</td>
+                        <td>${loan.bookId}</td>
+                        <td>${loan.memberId}</td>
+                        <td>${loan.loanDate ? new Date(loan.loanDate).toLocaleDateString('tr-TR') : '-'}</td>
+                        <td>${loan.returnDate ? new Date(loan.returnDate).toLocaleDateString('tr-TR') : '-'}</td>
+                        <td class="actions">
+                            <button class="btn-primary" onclick="editLoan(${loan.id})">Düzenle</button>
+                            <button class="btn-danger" onclick="deleteLoan(${loan.id})">Sil</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                showMessage('loans', 'Ödünçler yüklenirken hata oluştu: ' + error.message, true);
+            }
+        }
+
+        async function editLoan(id) {
+            try {
+                const response = await fetch(`${API_BASE}/loans/${id}`);
+                const loan = await response.json();
+                document.getElementById('loan-id').value = loan.id;
+                document.getElementById('loan-book-id').value = loan.bookId;
+                document.getElementById('loan-member-id').value = loan.memberId;
+                if (loan.loanDate) {
+                    document.getElementById('loan-date').value = new Date(loan.loanDate).toISOString().split('T')[0];
+                }
+                if (loan.returnDate) {
+                    document.getElementById('loan-return-date').value = new Date(loan.returnDate).toISOString().split('T')[0];
+                }
+            } catch (error) {
+                showMessage('loans', 'Ödünç bilgileri alınırken hata oluştu: ' + error.message, true);
+            }
+        }
+
+        async function deleteLoan(id) {
+            if (!confirm('Bu ödüncü silmek istediğinize emin misiniz?')) return;
+            try {
+                const response = await fetch(`${API_BASE}/loans/${id}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    showMessage('loans', 'Ödünç başarıyla silindi');
+                    loadLoans();
+                } else {
+                    showMessage('loans', 'Ödünç silinirken hata oluştu', true);
+                }
+            } catch (error) {
+                showMessage('loans', 'Ödünç silinirken hata oluştu: ' + error.message, true);
+            }
+        }
+
+        function resetLoanForm() {
+            document.getElementById('loan-form').reset();
+            document.getElementById('loan-id').value = '';
+        }
+
+        document.getElementById('loan-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('loan-id').value;
+            const loan = {
+                bookId: parseInt(document.getElementById('loan-book-id').value),
+                memberId: parseInt(document.getElementById('loan-member-id').value),
+                loanDate: document.getElementById('loan-date').value
+            };
+            
+            const returnDate = document.getElementById('loan-return-date').value;
+            if (returnDate) {
+                loan.returnDate = returnDate;
+            }
+            
+            try {
+                const url = `${API_BASE}/loans/`;
+                const method = id ? 'PUT' : 'POST';
+                if (id) loan.id = parseInt(id);
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(loan)
+                });
+                
+                if (response.ok) {
+                    showMessage('loans', id ? 'Ödünç güncellendi' : 'Ödünç eklendi');
+                    resetLoanForm();
+                    loadLoans();
+                } else {
+                    showMessage('loans', 'İşlem başarısız', true);
+                }
+            } catch (error) {
+                showMessage('loans', 'Hata: ' + error.message, true);
+            }
+        });
+
+        // Load initial data
+        loadBooks();
+    </script>
+</body>
+</html>
+

@@ -2,25 +2,21 @@ package com.example.library.repositoryImpl;
 
 import com.example.library.model.Loan;
 import com.example.library.repository.LoanRepository;
+import com.example.library.util.DatabaseConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LoanRepositoryImpl implements LoanRepository {
-
-    private final String url = "jdbc:mysql://localhost:3306/library";
-    private final String user = "root";
-    private final String password = "12345";
-
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, user, password);
-    }
+    private static final Logger logger = LoggerFactory.getLogger(LoanRepositoryImpl.class);
 
     @Override
     public void save(Loan loan) {
         String sql = "INSERT INTO loans (book_id, member_id, loan_date, return_date) VALUES (?, ?, ?, ?)";
-        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, loan.getBookId());
             pstmt.setInt(2, loan.getMemberId());
             pstmt.setDate(3, new Date(loan.getLoanDate().getTime()));
@@ -31,14 +27,14 @@ public class LoanRepositoryImpl implements LoanRepository {
             }
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error in loan operation: {}", e.getMessage(), e);
         }
     }
 
     @Override
     public Loan findById(int id) {
         String sql = "SELECT * FROM loans WHERE id = ?";
-        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -51,7 +47,7 @@ public class LoanRepositoryImpl implements LoanRepository {
                 );
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error in loan operation: {}", e.getMessage(), e);
         }
         return null;
     }
@@ -60,7 +56,7 @@ public class LoanRepositoryImpl implements LoanRepository {
     public List<Loan> findAll() {
         String sql = "SELECT * FROM loans";
         List<Loan> loans = new ArrayList<>();
-        try (Connection conn = getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 loans.add(new Loan(
                         rs.getInt("id"),
@@ -71,7 +67,7 @@ public class LoanRepositoryImpl implements LoanRepository {
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error in loan operation: {}", e.getMessage(), e);
         }
         return loans;
     }
@@ -79,7 +75,7 @@ public class LoanRepositoryImpl implements LoanRepository {
     @Override
     public boolean update(Loan loan) {
         String sql = "UPDATE loans SET book_id = ?, member_id = ?, loan_date = ?, return_date = ? WHERE id = ?";
-        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, loan.getBookId());
             pstmt.setInt(2, loan.getMemberId());
             pstmt.setDate(3, new Date(loan.getLoanDate().getTime()));
@@ -91,7 +87,7 @@ public class LoanRepositoryImpl implements LoanRepository {
             pstmt.setInt(5, loan.getId());
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error in loan operation: {}", e.getMessage(), e);
         }
         return false;
     }
@@ -99,11 +95,11 @@ public class LoanRepositoryImpl implements LoanRepository {
     @Override
     public boolean delete(int id) {
         String sql = "DELETE FROM loans WHERE id = ?";
-        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error in loan operation: {}", e.getMessage(), e);
         }
         return false;
     }

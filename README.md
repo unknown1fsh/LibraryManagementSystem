@@ -1,319 +1,324 @@
--------
-ENGLISH
--------
+# 📚 Kütüphane Yönetim Sistemi
 
-# Library Management System
+Modern, profesyonel ve kullanıcı dostu bir kütüphane yönetim sistemi. Java tabanlı REST API ile kitaplar, üyeler ve ödünç işlemlerini yönetebilirsiniz.
 
-This project is a Library Management System developed in Java. It provides functionality for managing books, members, and loans within a library. The system is built using Maven for dependency management and uses Jetty Server to host the application.
+## ✨ Özellikler
 
-## Table of Contents
+- ✅ **Kitaplar Yönetimi**: Kitap ekleme, güncelleme, silme ve listeleme
+- ✅ **Üyeler Yönetimi**: Üye ekleme, güncelleme, silme ve listeleme
+- ✅ **Ödünç İşlemleri**: Kitap ödünç verme, iade etme ve takip
+- ✅ **Modern Web Arayüzü**: Responsive ve kullanıcı dostu HTML test sayfası
+- ✅ **RESTful API**: Standart HTTP metodları ile tam CRUD desteği
+- ✅ **Veritabanı Yönetimi**: MySQL ile güvenli ve ölçeklenebilir veri saklama
+- ✅ **CORS Desteği**: Frontend uygulamalarından kolayca erişim
+- ✅ **Logging**: Detaylı log kayıtları ile hata takibi
 
-- [Features](#features)
-- [Technologies](#technologies)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-  - [Books](#books)
-  - [Loans](#loans)
-  - [Members](#members)
-- [Postman Collection](#postman-collection)
-- [Contributing](#contributing)
-- [License](#license)
+## 🛠️ Teknolojiler
 
-## Features
+- **Java 17**: Modern Java özellikleri
+- **Maven**: Bağımlılık yönetimi ve build aracı
+- **Jetty Server**: Hafif ve hızlı embedded web sunucusu
+- **MySQL 8.0**: İlişkisel veritabanı yönetim sistemi
+- **Gson**: JSON işleme kütüphanesi
+- **SLF4J + Logback**: Profesyonel logging framework
+- **Servlet API**: HTTP istek/yanıt yönetimi
 
-- CRUD operations for books, loans, and members.
-- Detailed API documentation.
-- Easy testing with Postman collection.
-- Lightweight Jetty server for hosting the application.
+## 📋 Gereksinimler
 
-## Technologies
+- Java 17 veya üzeri
+- Maven 3.6+
+- MySQL 8.0+
+- Git (opsiyonel)
 
-- **Java**: Programming language.
-- **Maven**: Build and dependency management.
-- **Jetty Server**: Lightweight web server.
-- **MySQL**: Database management system.
-- **Gson**: JSON library for Java.
-- **Servlet API**: For handling HTTP requests and responses.
+## 🚀 Kurulum
 
-## Project Structure
+### 1. Projeyi Klonlayın
+
+```bash
+git clone <repository-url>
+cd LibraryManagementSystem/LibraryManagementSystem
+```
+
+### 2. Veritabanını Oluşturun
+
+MySQL'e bağlanın ve veritabanı şemasını oluşturun:
+
+```bash
+mysql -u root -p < src/main/resources/database/schema.sql
+```
+
+Veya MySQL komut satırından:
+
+```sql
+mysql -u root -p
+source src/main/resources/database/schema.sql
+```
+
+### 3. Veritabanı Bağlantı Ayarlarını Yapılandırın
+
+`src/main/resources/application.properties` dosyasını düzenleyin:
+
+```properties
+db.url=jdbc:mysql://localhost:3306/library
+db.username=root
+db.password=12345
+```
+
+### 4. Projeyi Derleyin
+
+```bash
+mvn clean install
+```
+
+### 5. Uygulamayı Çalıştırın
+
+```bash
+mvn exec:java
+```
+
+Veya:
+
+```bash
+java -cp target/classes:target/dependency/* com.example.library.Main
+```
+
+## 🌐 Kullanım
+
+### Web Arayüzü
+
+Uygulama başlatıldıktan sonra tarayıcınızda şu adresi açın:
+
+```
+http://localhost:8086/index.html
+```
+
+Web arayüzünden:
+- Kitapları görüntüleyebilir, ekleyebilir, düzenleyebilir ve silebilirsiniz
+- Üyeleri yönetebilirsiniz
+- Ödünç işlemlerini takip edebilirsiniz
+
+### API Endpoints
+
+#### Kitaplar
+
+- **GET** `/books/` - Tüm kitapları listele
+- **GET** `/books/{id}` - ID ile kitap getir
+- **POST** `/books/` - Yeni kitap ekle
+- **PUT** `/books/` - Kitap güncelle
+- **DELETE** `/books/{id}` - Kitap sil
+
+**Örnek: Yeni Kitap Ekleme**
+
+```bash
+curl -X POST http://localhost:8086/books/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Java Programlama",
+    "author": "Ahmet Yılmaz",
+    "isbn": "978-1234567890"
+  }'
+```
+
+#### Üyeler
+
+- **GET** `/members/` - Tüm üyeleri listele
+- **GET** `/members/{id}` - ID ile üye getir
+- **POST** `/members/` - Yeni üye ekle
+- **PUT** `/members/` - Üye güncelle
+- **DELETE** `/members/{id}` - Üye sil
+
+**Örnek: Yeni Üye Ekleme**
+
+```bash
+curl -X POST http://localhost:8086/members/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Mehmet Demir",
+    "email": "mehmet@example.com"
+  }'
+```
+
+#### Ödünçler
+
+- **GET** `/loans/` - Tüm ödünçleri listele
+- **GET** `/loans/{id}` - ID ile ödünç getir
+- **POST** `/loans/` - Yeni ödünç ekle
+- **PUT** `/loans/` - Ödünç güncelle
+- **DELETE** `/loans/{id}` - Ödünç sil
+
+**Örnek: Yeni Ödünç Ekleme**
+
+```bash
+curl -X POST http://localhost:8086/loans/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "bookId": 1,
+    "memberId": 1,
+    "loanDate": "2024-01-15",
+    "returnDate": null
+  }'
+```
+
+## 📁 Proje Yapısı
 
 ```
 LibraryManagementSystem/
 ├── src/
 │   └── main/
-│       └── java/
-│           └── com/
-│               └── example/
-│                   └── library/
-│                       ├── Main.java
-│                       ├── JettyServer.java
-│                       ├── model/
-│                       │   ├── Book.java
-│                       │   ├── Loan.java
-│                       │   └── Member.java
-│                       ├── repository/
-│                       │   ├── BookRepository.java
-│                       │   ├── LoanRepository.java
-│                       │   └── MemberRepository.java
-│                       ├── repositoryImpl/
-│                       │   ├── BookRepositoryImpl.java
-│                       │   ├── LoanRepositoryImpl.java
-│                       │   └── MemberRepositoryImpl.java
-│                       ├── service/
-│                       │   ├── BookService.java
-│                       │   ├── LoanService.java
-│                       │   └── MemberService.java
-│                       ├── serviceImpl/
-│                       │   ├── BookServiceImpl.java
-│                       │   ├── LoanServiceImpl.java
-│                       │   └── MemberServiceImpl.java
-│                       └── servlet/
-│                           ├── BookServlet.java
-│                           ├── LoanServlet.java
-│                           └── MemberServlet.java
-└── pom.xml
+│       ├── java/
+│       │   └── com/example/library/
+│       │       ├── Main.java                 # Ana giriş noktası
+│       │       ├── JettyServer.java          # Jetty sunucu yapılandırması
+│       │       ├── model/                    # Veri modelleri
+│       │       │   ├── Book.java
+│       │       │   ├── Member.java
+│       │       │   └── Loan.java
+│       │       ├── repository/               # Repository arayüzleri
+│       │       │   ├── BookRepository.java
+│       │       │   ├── MemberRepository.java
+│       │       │   └── LoanRepository.java
+│       │       ├── repositoryImpl/            # Repository implementasyonları
+│       │       │   ├── BookRepositoryImpl.java
+│       │       │   ├── MemberRepositoryImpl.java
+│       │       │   └── LoanRepositoryImpl.java
+│       │       ├── service/                  # Service arayüzleri
+│       │       │   ├── BookService.java
+│       │       │   ├── MemberService.java
+│       │       │   └── LoanService.java
+│       │       ├── serviceImpl/               # Service implementasyonları
+│       │       │   ├── BookServiceImpl.java
+│       │       │   ├── MemberServiceImpl.java
+│       │       │   └── LoanServiceImpl.java
+│       │       ├── servlet/                  # HTTP servlet'leri
+│       │       │   ├── BookServlet.java
+│       │       │   ├── MemberServlet.java
+│       │       │   └── LoanServlet.java
+│       │       └── util/                      # Yardımcı sınıflar
+│       │           ├── DatabaseConnection.java
+│       │           ├── PropertiesLoader.java
+│       │           └── CorsUtil.java
+│       ├── resources/
+│       │   ├── application.properties         # Veritabanı ayarları
+│       │   ├── logback.xml                    # Logging yapılandırması
+│       │   └── database/
+│       │       └── schema.sql                 # Veritabanı şeması
+│       └── webapp/
+│           ├── index.html                     # Web test arayüzü
+│           └── WEB-INF/
+│               └── web.xml                    # Web uygulama yapılandırması
+├── pom.xml                                    # Maven yapılandırması
+└── README.md                                  # Bu dosya
 ```
 
-## Installation
+## 🔧 Yapılandırma
 
-1. **Clone the repository**:
-   ```sh
-   git clone https://github.com/your-username/LibraryManagementSystem.git
-   cd LibraryManagementSystem
-   ```
+### Veritabanı Ayarları
 
-2. **Set up the database**:
-   - Create a MySQL database named `library`.
-   - Import the provided SQL script to set up the initial schema and data.
+`src/main/resources/application.properties` dosyasında:
 
-3. **Configure the database connection**:
-   - Update the database connection settings in the `pom.xml` file or in a `application.properties` file.
-
-4. **Build the project**:
-   ```sh
-   mvn clean install
-   ```
-
-5. **Run the application**:
-   ```sh
-   mvn exec:java -Dexec.mainClass="com.example.library.Main"
-   ```
-
-## Usage
-
-Once the application is running, you can interact with the API endpoints using a tool like Postman or cURL.
-
-## API Endpoints
-
-### Books
-
-- **GET /books**: Retrieve a list of all books.
-- **GET /books/{id}**: Retrieve a single book by its ID.
-- **POST /books**: Add a new book.
-- **PUT /books/{id}**: Update an existing book by its ID.
-- **DELETE /books/{id}**: Delete a book by its ID.
-
-### Loans
-
-- **GET /loans**: Retrieve a list of all loans.
-- **GET /loans/{id}**: Retrieve a single loan by its ID.
-- **POST /loans**: Add a new loan.
-- **PUT /loans/{id}**: Update an existing loan by its ID.
-- **DELETE /loans/{id}**: Delete a loan by its ID.
-
-### Members
-
-- **GET /members**: Retrieve a list of all members.
-- **GET /members/{id}**: Retrieve a single member by its ID.
-- **POST /members**: Add a new member.
-- **PUT /members/{id}**: Update an existing member by its ID.
-- **DELETE /members/{id}**: Delete a member by its ID.
-
-## Postman Collection
-
-A Postman collection is provided to facilitate testing and interacting with the API endpoints.
-
-1. **Import the Postman collection**:
-   - Open Postman.
-   - Click on `Import` in the top left corner.
-   - Select the provided Postman collection file and import it.
-
-2. **Use the collection to test the API endpoints**:
-   - The collection includes pre-configured requests for all available endpoints.
-
-## Contributing
-
-Contributions are welcome! Please follow these steps to contribute:
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes.
-4. Commit your changes (`git commit -m 'Add new feature'`).
-5. Push to the branch (`git push origin feature-branch`).
-6. Open a Pull Request.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-------
-TÜRKÇE
-------
-
-# Kütüphane Yönetim Sistemi
-
-Bu proje, Java ile geliştirilmiş bir Kütüphane Yönetim Sistemi'dir. Bu sistem, kütüphane içindeki kitapları, üyeleri ve ödünç işlemlerini yönetmek için çeşitli fonksiyonlar sunar. Proje, bağımlılık yönetimi için Maven kullanır ve uygulamayı barındırmak için Jetty Server kullanır.
-
-## İçindekiler
-
-- [Özellikler](#özellikler)
-- [Teknolojiler](#teknolojiler)
-- [Proje Yapısı](#proje-yapısı)
-- [Kurulum](#kurulum)
-- [Kullanım](#kullanım)
-- [API Uç Noktaları](#api-uç-noktaları)
-  - [Kitaplar](#kitaplar)
-  - [Ödünçler](#ödünçler)
-  - [Üyeler](#üyeler)
-- [Postman Koleksiyonu](#postman-koleksiyonu)
-- [Katkıda Bulunma](#katkıda-bulunma)
-- [Lisans](#lisans)
-
-## Özellikler
-
-- Kitaplar, ödünçler ve üyeler için CRUD işlemleri.
-- Detaylı API dokümantasyonu.
-- Postman koleksiyonu ile kolay test.
-- Uygulamayı barındırmak için hafif Jetty sunucusu.
-
-## Teknolojiler
-
-- **Java**: Programlama dili.
-- **Maven**: Derleme ve bağımlılık yönetimi.
-- **Jetty Server**: Hafif web sunucusu.
-- **MySQL**: Veritabanı yönetim sistemi.
-- **Gson**: Java için JSON kütüphanesi.
-- **Servlet API**: HTTP istek ve yanıtları işlemek için.
-
-## Proje Yapısı
-
-```
-LibraryManagementSystem/
-├── src/
-│   └── main/
-│       └── java/
-│           └── com/
-│               └── example/
-│                   └── library/
-│                       ├── Main.java
-│                       ├── JettyServer.java
-│                       ├── model/
-│                       │   ├── Book.java
-│                       │   ├── Loan.java
-│                       │   └── Member.java
-│                       ├── repository/
-│                       │   ├── BookRepository.java
-│                       │   ├── LoanRepository.java
-│                       │   └── MemberRepository.java
-│                       ├── repositoryImpl/
-│                       │   ├── BookRepositoryImpl.java
-│                       │   ├── LoanRepositoryImpl.java
-│                       │   └── MemberRepositoryImpl.java
-│                       ├── service/
-│                       │   ├── BookService.java
-│                       │   ├── LoanService.java
-│                       │   └── MemberService.java
-│                       ├── serviceImpl/
-│                       │   ├── BookServiceImpl.java
-│                       │   ├── LoanServiceImpl.java
-│                       │   └── MemberServiceImpl.java
-│                       └── servlet/
-│                           ├── BookServlet.java
-│                           ├── LoanServlet.java
-│                           └── MemberServlet.java
-└── pom.xml
+```properties
+db.url=jdbc:mysql://localhost:3306/library
+db.username=root
+db.password=12345
 ```
 
-## Kurulum
+### Port Ayarları
 
-1. **Depoyu klonlayın**:
-   ```sh
-   git clone https://github.com/your-username/LibraryManagementSystem.git
-   cd LibraryManagementSystem
-   ```
+Sunucu portunu değiştirmek için `JettyServer.java` dosyasındaki port numarasını düzenleyin:
 
-2. **Veritabanını ayarlayın**:
-   - `library` adında bir MySQL veritabanı oluşturun.
-   - Sağlanan SQL betiğini kullanarak başlangıç şeması ve verileri yükleyin.
+```java
+Server server = new Server(8086); // Port numarasını değiştirin
+```
 
-3. **Veritabanı bağlantısını yapılandırın**:
-   - `pom.xml` dosyasındaki veya `application.properties` dosyasındaki veritabanı bağlantı ayarlarını güncelleyin.
+### Logging
 
-4. **Projeyi derleyin**:
-   ```sh
-   mvn clean install
-   ```
+Log ayarları `src/main/resources/logback.xml` dosyasında yapılandırılmıştır. Log dosyaları `logs/` klasörüne yazılır.
 
-5. **Uygulamayı çalıştırın**:
-   ```sh
-   mvn exec:java -Dexec.mainClass="com.example.library.Main"
-   ```
+## 🧪 Test Etme
 
-## Kullanım
+### Web Arayüzü ile Test
 
-Uygulama çalıştıktan sonra, API uç noktalarıyla Postman veya cURL gibi araçları kullanarak etkileşime geçebilirsiniz.
+1. Uygulamayı başlatın: `mvn exec:java`
+2. Tarayıcıda `http://localhost:8086/index.html` adresini açın
+3. Kitaplar, Üyeler ve Ödünçler sekmesini kullanarak tüm işlemleri test edin
 
-## API Uç Noktaları
+### Postman ile Test
 
-### Kitaplar
+Projede `LibraryManagementSystem.postman_collection.json` dosyası bulunmaktadır. Postman'de import ederek tüm endpoint'leri test edebilirsiniz.
 
-- **GET /books**: Tüm kitapları listele.
-- **GET /books/{id}**: ID ile tek bir kitabı getir.
-- **POST /books**: Yeni bir kitap ekle.
-- **PUT /books/{id}**: ID ile var olan bir kitabı güncelle.
-- **DELETE /books/{id}**: ID ile bir kitabı sil.
+### cURL ile Test
 
-### Ödünçler
+Yukarıdaki API örneklerini kullanarak komut satırından test edebilirsiniz.
 
-- **GET /loans**: Tüm ödünçleri listele.
-- **GET /loans/{id}**: ID ile tek bir ödünç getir.
-- **POST /loans**: Yeni bir ödünç ekle.
-- **PUT /loans/{id}**: ID ile var olan bir ödüncü güncelle.
-- **DELETE /loans/{id}**: ID ile bir ödüncü sil.
+## 📝 Veritabanı Şeması
 
-### Üyeler
+### Books Tablosu
 
-- **GET /members**: Tüm üyeleri listele.
-- **GET /members/{id}**: ID ile tek bir üyeyi getir.
-- **POST /members**: Yeni bir üye ekle.
-- **PUT /members/{id}**: ID ile var olan bir üyeyi güncelle.
-- **DELETE /members/{id}**: ID ile bir üyeyi sil.
+| Sütun | Tip | Açıklama |
+|-------|-----|----------|
+| id | INT | Primary Key, Auto Increment |
+| title | VARCHAR(255) | Kitap başlığı |
+| author | VARCHAR(255) | Yazar adı |
+| isbn | VARCHAR(50) | ISBN numarası (Unique) |
+| created_at | TIMESTAMP | Oluşturulma tarihi |
+| updated_at | TIMESTAMP | Güncellenme tarihi |
 
-## Postman Koleksiyonu
+### Members Tablosu
 
-Kolay test ve API uç noktalarıyla etkileşim için bir Postman koleksiyonu sağlanmıştır.
+| Sütun | Tip | Açıklama |
+|-------|-----|----------|
+| id | INT | Primary Key, Auto Increment |
+| name | VARCHAR(255) | Üye adı soyadı |
+| email | VARCHAR(255) | E-posta adresi (Unique) |
+| created_at | TIMESTAMP | Oluşturulma tarihi |
+| updated_at | TIMESTAMP | Güncellenme tarihi |
 
-1. **Postman koleksiyonunu içe aktarın**:
-   - Postman'i açın.
-   - Sol üst köşedeki `Import` butonuna tıklayın.
-   - Sağlanan Postman koleksiyon dosyasını seçip içe aktarın.
+### Loans Tablosu
 
-2. **Koleksiyonu kullanarak API uç noktalarını test edin**:
-   - Koleksiyon, tüm mevcut uç noktalar için önceden yapılandırılmış istekler içerir.
+| Sütun | Tip | Açıklama |
+|-------|-----|----------|
+| id | INT | Primary Key, Auto Increment |
+| book_id | INT | Kitap ID (Foreign Key) |
+| member_id | INT | Üye ID (Foreign Key) |
+| loan_date | DATE | Ödünç tarihi |
+| return_date | DATE | İade tarihi (Nullable) |
+| created_at | TIMESTAMP | Oluşturulma tarihi |
+| updated_at | TIMESTAMP | Güncellenme tarihi |
 
-## Katkıda Bulunma
+## 🐛 Sorun Giderme
 
-Katkılar memnuniyetle karşılanır! Katkıda bulunmak için lütfen aşağıdaki adımları izleyin:
+### Veritabanı Bağlantı Hatası
 
-1. Depoyu forklayın.
-2. Yeni bir dal oluşturun (`git checkout -b feature-branch`).
-3. Değişikliklerinizi yapın.
-4. Değişikliklerinizi commit edin (`git commit -m 'Yeni özellik ekle'`).
-5. Dalınıza push edin (`git push origin feature-branch`).
-6. Bir Pull Request açın.
+- MySQL servisinin çalıştığından emin olun
+- `application.properties` dosyasındaki bağlantı bilgilerini kontrol edin
+- Veritabanının oluşturulduğunu doğrulayın: `SHOW DATABASES LIKE 'library';`
 
-## Lisans
+### Port Zaten Kullanımda
 
-Bu proje MIT Lisansı ile lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına bakın.
+8086 portu kullanılıyorsa:
+- `JettyServer.java` dosyasında farklı bir port numarası kullanın
+- Veya mevcut portu kullanan uygulamayı durdurun
+
+### Log Dosyaları
+
+Hata ayıklama için `logs/library.log` dosyasını kontrol edin.
+
+## 📄 Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır.
+
+## 👥 Katkıda Bulunma
+
+1. Bu repository'yi fork edin
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Değişikliklerinizi commit edin (`git commit -m 'Add amazing feature'`)
+4. Branch'inizi push edin (`git push origin feature/amazing-feature`)
+5. Pull Request oluşturun
+
+## 📞 İletişim
+
+Sorularınız veya önerileriniz için issue açabilirsiniz.
+
+---
+
+⭐ Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!

@@ -2,38 +2,34 @@ package com.example.library.repositoryImpl;
 
 import com.example.library.model.Book;
 import com.example.library.repository.BookRepository;
+import com.example.library.util.DatabaseConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookRepositoryImpl implements BookRepository {
-
-    private final String url = "jdbc:mysql://localhost:3306/library";
-    private final String user = "root";
-    private final String password = "12345";
-
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, user, password);
-    }
+    private static final Logger logger = LoggerFactory.getLogger(BookRepositoryImpl.class);
 
     @Override
     public void save(Book book) {
         String sql = "INSERT INTO books (title, author, isbn) VALUES (?, ?, ?)";
-        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, book.getTitle());
             pstmt.setString(2, book.getAuthor());
             pstmt.setString(3, book.getIsbn());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error saving book: {}", e.getMessage(), e);
         }
     }
 
     @Override
     public Book findById(int id) {
         String sql = "SELECT * FROM books WHERE id = ?";
-        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -45,7 +41,7 @@ public class BookRepositoryImpl implements BookRepository {
                 );
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error saving book: {}", e.getMessage(), e);
         }
         return null;
     }
@@ -54,7 +50,7 @@ public class BookRepositoryImpl implements BookRepository {
     public List<Book> findAll() {
         String sql = "SELECT * FROM books";
         List<Book> books = new ArrayList<>();
-        try (Connection conn = getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 books.add(new Book(
                         rs.getInt("id"),
@@ -64,7 +60,7 @@ public class BookRepositoryImpl implements BookRepository {
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error saving book: {}", e.getMessage(), e);
         }
         return books;
     }
@@ -72,14 +68,14 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public boolean update(Book book) {
         String sql = "UPDATE books SET title = ?, author = ?, isbn = ? WHERE id = ?";
-        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, book.getTitle());
             pstmt.setString(2, book.getAuthor());
             pstmt.setString(3, book.getIsbn());
             pstmt.setInt(4, book.getId());
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error saving book: {}", e.getMessage(), e);
         }
         return false;
     }
@@ -87,11 +83,11 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public boolean delete(int id) {
         String sql = "DELETE FROM books WHERE id = ?";
-        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error saving book: {}", e.getMessage(), e);
         }
         return false;
     }

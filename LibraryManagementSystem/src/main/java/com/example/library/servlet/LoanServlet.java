@@ -2,6 +2,7 @@ package com.example.library.servlet;
 
 import com.example.library.model.Loan;
 import com.example.library.service.LoanService;
+import com.example.library.util.CorsUtil;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -23,7 +24,14 @@ public class LoanServlet extends HttpServlet {
     }
 
     @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CorsUtil.setCorsHeaders(resp);
+        resp.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CorsUtil.setCorsHeaders(resp);
         String path = req.getPathInfo();
         resp.setContentType("application/json");
         if (path == null || path.equals("/")) {
@@ -48,6 +56,7 @@ public class LoanServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CorsUtil.setCorsHeaders(resp);
         Loan loan = gson.fromJson(req.getReader(), Loan.class);
         try {
             loanService.addLoan(loan);
@@ -61,6 +70,7 @@ public class LoanServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CorsUtil.setCorsHeaders(resp);
         Loan loan = gson.fromJson(req.getReader(), Loan.class);
         try {
             boolean updated = loanService.updateLoan(loan);
@@ -78,6 +88,7 @@ public class LoanServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CorsUtil.setCorsHeaders(resp);
         String path = req.getPathInfo();
         if (path == null || path.equals("/")) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

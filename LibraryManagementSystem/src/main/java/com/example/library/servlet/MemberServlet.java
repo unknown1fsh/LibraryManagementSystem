@@ -2,6 +2,7 @@ package com.example.library.servlet;
 
 import com.example.library.model.Member;
 import com.example.library.service.MemberService;
+import com.example.library.util.CorsUtil;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -22,7 +23,14 @@ public class MemberServlet extends HttpServlet {
     }
 
     @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CorsUtil.setCorsHeaders(resp);
+        resp.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CorsUtil.setCorsHeaders(resp);
         String path = req.getPathInfo();
         resp.setContentType("application/json");
         if (path == null || path.equals("/")) {
@@ -47,6 +55,7 @@ public class MemberServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CorsUtil.setCorsHeaders(resp);
         Member member = gson.fromJson(req.getReader(), Member.class);
         memberService.addMember(member);
         resp.setStatus(HttpServletResponse.SC_CREATED);
@@ -55,6 +64,7 @@ public class MemberServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CorsUtil.setCorsHeaders(resp);
         Member member = gson.fromJson(req.getReader(), Member.class);
         boolean updated = memberService.updateMember(member);
         if (updated) {
@@ -67,6 +77,7 @@ public class MemberServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CorsUtil.setCorsHeaders(resp);
         String path = req.getPathInfo();
         if (path == null || path.equals("/")) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
